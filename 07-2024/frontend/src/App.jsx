@@ -1,14 +1,13 @@
 import React from 'react'
 import './App.css'
 
-import { Button } from '@material-tailwind/react'
-
+import Home from './components/home'
 
 function App() {
 
   return (
     <>
-      <Button>Hello World!</Button>
+      <Home />
     </>
   )
 }
