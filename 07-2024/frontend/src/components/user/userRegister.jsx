@@ -58,7 +58,7 @@ const UserRegister = ({ closePopup, OpenUserLogin }) => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(
-          "${apiurl}/api/auth/user/data",
+          `${apiurl}/api/auth/user/data/register`,
           formData,
           {
             headers: {

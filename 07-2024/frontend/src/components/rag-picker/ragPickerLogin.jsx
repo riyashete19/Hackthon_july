@@ -1,33 +1,49 @@
-import React, { useState } from 'react'
-import { 
-    Input,
-    Typography,
-    Button
- } from '@material-tailwind/react'
-
-import { 
-    FontAwesomeIcon 
-} from '@fortawesome/react-fontawesome';
-
-import { 
-    faTimes 
-} from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Input, Typography, Button } from '@material-tailwind/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useUser } from '../context/useContext';
+import { useNavigate } from 'react-router-dom';
 
 const RagPickerLogin = ({ closePopup, OpenRagPickerRegister, OpenRagPickerForgotPass }) => {
-    const [ error , setError ] =useState('');
+    const { setUser } = useUser();
+    const [errors, setErrors] = useState({});
+    const [error, setError] = useState('');
+    const [ragpickeremail, setRagPickerEmail] = useState('');
+    const [ragpickercreatedpass, setRagPickerCreatedPass] = useState('');
+    const navigate = useNavigate('');
+
+    const apiurl = import.meta.env.VITE_SERVER_API;
+
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.post(`${apiurl}/api/auth/rag-picker/data/login`, { ragpickeremail, ragpickercreatedpass });
+            if (response.data.success) {
+                const { ragPicker } = response.data;
+                console.log('User Data:', ragPicker);
+                setUser(ragPicker);
+                console.log('Login Successful!');
+                navigate('/rag-picker/dashboard');
+            } else {
+                setError('Invalid email or password');
+            }
+        } catch (error) {
+            setError('Error logging in');
+            console.error('Error logging in:', error);
+        }
+    };
 
     const swtichtoforgotpass = () => {
         closePopup();
-        OpenRagPickerForgotPass();
-    };
-    const switchtoregister = () => {
-        closePopup();
-        OpenRagPickerRegister();
+        OpenUserForgotPass();
     };
 
-    const handleSubmit = () => {
-        setError();
+    const switchtoregister = () => {
+        closePopup();
+        OpenUserRegister();
     };
+
 
      
   return (
@@ -43,8 +59,23 @@ const RagPickerLogin = ({ closePopup, OpenRagPickerRegister, OpenRagPickerForgot
                 {error && <Typography color="red" className="mt-4 text-center font-normal">{error}</Typography>}
             </div>
             <div className='flex w-27 flex-col item-end gap-4 mt-5 mb-40'>
-                <Input label='Email, Phone or usernames' />
-                <Input label='Password'/>
+                    <Input
+                        label="Email"
+                        name="useremail"
+                        value={ragpickeremail}
+                        onChange={(e) => setRagPickerEmail(e.target.value)}
+                    />
+                    {errors.ragpickeremail && <Typography color="red">{errors.ragpickeremail}</Typography>}
+                    <Input
+                        label="Create Password"
+                        name="usercreatedpass"
+                        type="password"
+                        value={ragpickercreatedpass}
+                        onChange={(e) => setRagPickerCreatedPass(e.target.value)}
+                    />
+                    {errors.ragpickercreatedpass && (
+                        <Typography color="red">{errors.ragpickercreatedpass}</Typography>
+                    )}
 
                 <div className="flex justify-between mb-4">
                     <div className="flex items-center">

@@ -57,7 +57,7 @@ const RagPickerRegister = ({ closePopup, OpenRagPickerLogin }) => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(
-          "${apiurl}/api/auth/rag-picker/data",
+          `${apiurl}/api/auth/rag-picker/data/register`,
           formData,
           {
             headers: {
@@ -67,6 +67,8 @@ const RagPickerRegister = ({ closePopup, OpenRagPickerLogin }) => {
         );
         const { ragpicker } = response.data;
         console.log('Ragpicker Data:', ragpicker);
+        setUser(ragpicker);
+        console.log('Response:', response);
         setError('Registration Successful!');
         navigate('/rag-picker/dashboard');
       } catch (error) {
