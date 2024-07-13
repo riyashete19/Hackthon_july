@@ -50,12 +50,14 @@ const RagPickerRegister = ({ closePopup, OpenRagPickerLogin }) => {
       newErrors.ragpickerfinalpass = 'Passwords do not match';
     }
 
+    apiurl = import.meta.env.VITE_SERVER_API
+
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(
-          import.meta.env.VITE_SERVER_API_FOR_RAG_PICKERS,
+          "${apiurl}/api/auth/rag-picker/data",
           formData,
           {
             headers: {
