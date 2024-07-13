@@ -9,7 +9,7 @@ import { useUser } from '../context/useContext';
 const UserRegister = ({ closePopup, OpenUserLogin }) => {
   const { setUser } = useUser();
   const [formData, setFormData] = useState({
-    uerfullname: '',
+    userfullname: '',
     useremail: '',
     userphone: '',
     usercreatedpass: '',
@@ -36,20 +36,17 @@ const UserRegister = ({ closePopup, OpenUserLogin }) => {
     e.preventDefault();
     const newErrors = {};
 
-    // Validate required fields
     Object.keys(formData).forEach((key) => {
       if (!formData[key]) {
         newErrors[key] = 'This field is required';
       }
     });
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.useremail)) {
-      newErrors.email = 'Invalid email format';
+      newErrors.useremail = 'Invalid email format';
     }
 
-    // Validate password match
     if (formData.usercreatedpass !== formData.userfinalpass) {
       newErrors.userfinalpass = 'Passwords do not match';
     }
@@ -59,7 +56,7 @@ const UserRegister = ({ closePopup, OpenUserLogin }) => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(
-          'https://july-hackthon-backend.vercel.app/api/auth/user/data',
+          import.meta.env.VITE_SERVER_API_FOR_USERS,
           formData,
           {
             headers: {
@@ -72,10 +69,10 @@ const UserRegister = ({ closePopup, OpenUserLogin }) => {
         setUser(user);
         console.log('Response:', response);
         setError('Registration Successful!');
-        navigate('/user/dashboard'); // Navigate to user dashboard after successful registration
+        navigate('/user/dashboard'); 
       } catch (error) {
         console.error('Error:', error);
-        setError('Registration Failed'); // Handle registration failure
+        setError('Registration Failed'); 
       }
     }
   };
@@ -98,12 +95,12 @@ const UserRegister = ({ closePopup, OpenUserLogin }) => {
         <div className="flex w-27 flex-col item-end gap-4 mt-5 mb-40">
           <Input
             label="Full Name"
-            name="uerfullname"
-            value={formData.uerfullname}
+            name="userfullname"
+            value={formData.userfullname}
             onChange={handleChange}
           />
-          {errors.uerfullname && (
-            <Typography color="red">{errors.uerfullname}</Typography>
+          {errors.userfullname && (
+            <Typography color="red">{errors.userfullname}</Typography>
           )}
           <Input
             label="Email"
