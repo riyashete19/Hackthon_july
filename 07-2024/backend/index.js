@@ -5,7 +5,7 @@ const cors = require("cors");
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
-const PORT = process.env.SERVER_PORT;
+const PORT = process.env.SERVER_PORT || 5000;
 
 app.use(cors({
     origin: "https://july-hackthon-frontend.vercel.app",
@@ -13,14 +13,12 @@ app.use(cors({
     credentials: true
 }));
 
-
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.status(200).json("server start")
+    res.status(200).json("server start");
 });
 
-// Use the authRoutes for handling authentication-related routes
 app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
