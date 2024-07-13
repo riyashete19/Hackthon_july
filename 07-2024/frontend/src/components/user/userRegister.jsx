@@ -59,7 +59,7 @@ const UserRegister = ({ closePopup, OpenUserLogin }) => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(
-          'https://july-hackthon-backend.vercel.app/register',
+          'https://july-hackthon-backend.vercel.app/api/auth/register',
           formData,
           {
             headers: {
