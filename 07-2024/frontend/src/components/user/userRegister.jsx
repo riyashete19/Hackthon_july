@@ -46,7 +46,7 @@ const UserRegister = ({ closePopup, OpenUserLogin }) => {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.useremail)) {
-      newErrors.useremail = 'Invalid email format';
+      newErrors.email = 'Invalid email format';
     }
 
     // Validate password match
@@ -59,7 +59,7 @@ const UserRegister = ({ closePopup, OpenUserLogin }) => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(
-          'https://july-hackthon-backend.vercel.app/api/auth/user/data', // Updated URL
+          'https://july-hackthon-backend.vercel.app/api/auth/user/data',
           formData,
           {
             headers: {
