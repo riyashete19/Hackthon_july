@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.SERVER_PORT || 5000;
 
 app.use(cors({
-    origin: "https://july-hackthon-frontend.vercel.app", 
+    origin: "*", 
     methods: "GET,POST,PUT,DELETE",
     credentials: true
 }));
